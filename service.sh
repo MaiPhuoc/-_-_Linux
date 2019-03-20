@@ -16,10 +16,10 @@ function expand {
 function check {
 
     swap=$(free -b | grep 'Swap' | tr -s ' ')
-    swapsize=$($swap | cut -d' ' -f1)
-    freesize=$($swap | cut -d' ' -f2)
+    swapsize=$($swap | cut -d' ' -f2)
+    freesize=$($swap | cut -d' ' -f4)
 
-    if (( freesize > (swapsize / 2) ))
+    if (( freesize < (swapsize / 2) ))
     then
         expand swapsize
     fi
