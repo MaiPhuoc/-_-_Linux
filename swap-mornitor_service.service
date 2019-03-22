@@ -1,0 +1,12 @@
+[Unit]
+Description=Swap monitoring service
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/swap-monitoring/swap-service.sh
+Restart=always
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
