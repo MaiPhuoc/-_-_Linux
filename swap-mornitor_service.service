@@ -3,7 +3,7 @@ Description=Swap monitoring service
 
 [Service]
 Type=simple
-ExecStart=/usr/lib/swap-monitoring/swap-service.sh
+ExecStart=/usr/bin/swap-service.sh
 Restart=always
 User=root
 Group=root
