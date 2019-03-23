@@ -1,11 +1,11 @@
 #!/bin/bash
 touch ~/swap-service.log; 
 logger "Start swap service.";
-sudo tail -1 /var/log/messages >> ~/swap-service.log
+sudo tail -1 /var/log/messages >> ~/swap-monitor.log
 
 function check_swap {
-used="$( free -m | tail -1|tr -s ' ' ' '| cut -d' ' -f3)";
-total="$( free -m | tail -1|tr -s ' ' ' '| cut -d' ' -f2)";
+used="$( free -ms 30 | tail -1|tr -s ' ' ' '| cut -d' ' -f3)";
+total="$( free -ms 30 | tail -1|tr -s ' ' ' '| cut -d' ' -f2)";
 	if (( $((used*2)) > $total )); then
 		result=1
 	else
@@ -28,19 +28,19 @@ function delete_swap() {
 finish() {
 	echo "Service swap finished."
 	logger "Service swap finished."
-	sudo tail -1 /var/log/messages >> ~/swap-service.log
+	sudo tail -1 /var/log/messages >> ~/swap-monitor.log
 	exit 0
 }
 
 trap_usr1() {
 	check_swap
-	echo "Signal USR1 recived."
+	echo "Signal USR1 received."
 	if (( result == 1 )); then 
-		logger "Signal USR1 recived. Status service: Swap file was created!"
-		sudo tail -1 /var/log/messages >> ~/swap-service.log
+		logger "Signal USR1 received. Status service: Swap file was created!"
+		sudo tail -1 /var/log/messages >> ~/swap-monitor.log
 	else
-		logger "Signal USR1 recived. Status service: New swap file wasn't created"
-		sudo tail -1 /var/log/messages >> ~/swap-service.log	
+		logger "Signal USR1 received. Status service: New swap file wasn't created."
+		sudo tail -1 /var/log/messages >> ~/swap-monitor.log	
 	fi	
 }
 
@@ -55,10 +55,10 @@ while true; do
 		create_new_swap "$k" ; 
 		let "k += 1";
 		logger "Create new file for swap. Double swap space."
-		sudo tail -1 /var/log/messages >> ~/swap-service.log
+		sudo tail -1 /var/log/messages >> ~/swap-monitor.log
 	fi
-	sleep 30 &
-	wait
+	#sleep 30 &
+	#wait
 done;
 
 exit 0
