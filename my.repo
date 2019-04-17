@@ -1,0 +1,4 @@
+[myrepo]
+name=my-repo
+baseurl=http://localhost/myrepo
+enabled=1
